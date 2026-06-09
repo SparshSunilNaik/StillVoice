@@ -2,6 +2,7 @@ export type VoiceNote = {
   id: string;
   title: string;
   transcript: string;
+  audioRecording?: AudioRecordingMetadata | null;
   roughTranscript?: string;
   finalTranscript?: string;
   transcriptionStatus?: "rough" | "processing" | "complete" | "failed";
@@ -9,6 +10,16 @@ export type VoiceNote = {
   createdAt: string;
   updatedAt: string;
   durationSeconds: number;
+};
+
+export type AudioRecordingMetadata = {
+  id: string;
+  noteId: string;
+  audioPath: string;
+  mimeType: string;
+  fileSize: number;
+  durationSeconds: number;
+  createdAt: string;
 };
 
 const STORAGE_KEY = "stillvoice.notes";

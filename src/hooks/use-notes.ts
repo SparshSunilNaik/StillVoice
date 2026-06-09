@@ -1,35 +1,30 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
-import { getNote, getNotes, type VoiceNote } from "@/lib/notes";
-
-const EMPTY_NOTES: VoiceNote[] = [];
-
-function subscribe(onStoreChange: () => void) {
-  window.addEventListener("storage", onStoreChange);
-  window.addEventListener("focus", onStoreChange);
-  window.addEventListener("stillvoice-notes-change", onStoreChange);
-
-  return () => {
-    window.removeEventListener("storage", onStoreChange);
-    window.removeEventListener("focus", onStoreChange);
-    window.removeEventListener("stillvoice-notes-change", onStoreChange);
-  };
-}
-
-function getServerSnapshot(): VoiceNote[] {
-  return EMPTY_NOTES;
-}
+import {
+  getNoteServerSnapshot,
+  getNoteSnapshot,
+  getNotesServerSnapshot,
+  getNotesSnapshot,
+  migrateLegacyStorage,
+  refreshNote,
+  refreshNotes,
+  subscribeToNotes,
+} from "@/lib/note-client";
 
 export function useNotes() {
-  return useSyncExternalStore(subscribe, getNotes, getServerSnapshot);
+  useEffect(() => {
+    void migrateLegacyStorage().finally(refreshNotes);
+  }, []);
+
+  return useSyncExternalStore(subscribeToNotes, getNotesSnapshot, getNotesServerSnapshot);
 }
 
 export function useNote(noteId: string) {
-  return useSyncExternalStore(
-    subscribe,
-    () => getNote(noteId) ?? null,
-    () => null,
-  );
+  useEffect(() => {
+    void migrateLegacyStorage().finally(() => refreshNote(noteId));
+  }, [noteId]);
+
+  return useSyncExternalStore(subscribeToNotes, () => getNoteSnapshot(noteId), getNoteServerSnapshot);
 }

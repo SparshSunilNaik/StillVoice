@@ -16,6 +16,10 @@ type NoteDetailProps = {
 export function NoteDetail({ noteId }: NoteDetailProps) {
   const note = useNote(noteId);
 
+  if (note === undefined) {
+    return <AppFrame />;
+  }
+
   if (note === null) {
     return (
       <AppFrame>

@@ -15,7 +15,18 @@ function openDatabase() {
   });
 }
 
-export async function saveAudioRecording(noteId: string, audio: Blob) {
+export async function saveAudioRecording(noteId: string, audio: Blob, durationSeconds: number) {
+  const formData = new FormData();
+  formData.append("audio", audio, `stillvoice-${noteId}.webm`);
+  formData.append("durationSeconds", String(durationSeconds));
+
+  await fetch(`/api/notes/${noteId}/audio`, {
+    method: "POST",
+    body: formData,
+  });
+}
+
+export async function saveLegacyAudioRecording(noteId: string, audio: Blob) {
   const database = await openDatabase();
 
   await new Promise<void>((resolve, reject) => {

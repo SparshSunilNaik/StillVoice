@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Note {
+  id              String          @id @default(cuid())
+  title           String
+  transcript      String
+  durationSeconds Int
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  audioRecording  AudioRecording?
+
+  @@index([createdAt])
+}
+
+model AudioRecording {
+  id              String   @id @default(cuid())
+  noteId          String   @unique
+  audioPath       String
+  mimeType        String
+  fileSize        Int
+  durationSeconds Int
+  createdAt       DateTime @default(now())
+  note            Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+}

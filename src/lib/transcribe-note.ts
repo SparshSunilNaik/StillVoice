@@ -1,7 +1,8 @@
-import { createNoteTitle, updateNote } from "@/lib/notes";
+import { updateNote } from "@/lib/note-client";
+import { createNoteTitle } from "@/lib/notes";
 
 export async function refineNoteTranscript(noteId: string, audio: Blob) {
-  updateNote(noteId, { transcriptionStatus: "processing", transcriptionError: undefined });
+  await updateNote(noteId, { transcriptionStatus: "processing", transcriptionError: undefined }).catch(() => undefined);
 
   const formData = new FormData();
   formData.append("audio", audio, `stillvoice-${noteId}.webm`);
@@ -22,7 +23,7 @@ export async function refineNoteTranscript(noteId: string, audio: Blob) {
 
     if (!transcript) throw new Error("Faster-Whisper returned an empty transcript");
 
-    updateNote(noteId, {
+    await updateNote(noteId, {
       title: createNoteTitle(transcript),
       transcript,
       finalTranscript: transcript,
@@ -31,10 +32,10 @@ export async function refineNoteTranscript(noteId: string, audio: Blob) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Faster-Whisper transcription failed";
-    updateNote(noteId, {
+    await updateNote(noteId, {
       transcriptionStatus: "failed",
       transcriptionError: message,
-    });
+    }).catch(() => undefined);
     window.dispatchEvent(new CustomEvent("stillvoice-transcription-error", { detail: message }));
   }
 }

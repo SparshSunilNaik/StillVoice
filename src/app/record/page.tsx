@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Pause, Square, Mic, Play, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -9,13 +10,15 @@ import { Button } from "@/components/ui/button";
 import { useAudioRecorder } from "@/hooks/use-audio-recorder";
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 import { saveAudioRecording } from "@/lib/audio-store";
-import { createNote, formatDuration, saveNote } from "@/lib/notes";
+import { saveNote } from "@/lib/note-client";
+import { createNote, formatDuration } from "@/lib/notes";
 import { refineNoteTranscript } from "@/lib/transcribe-note";
 
 export default function RecordingPage() {
   const router = useRouter();
   const recognition = useSpeechRecognition();
   const audioRecorder = useAudioRecorder();
+  const [storageError, setStorageError] = useState<string | null>(null);
 
   const handleStart = async () => {
     await audioRecorder.start();
@@ -42,11 +45,17 @@ export default function RecordingPage() {
     }
 
     const note = createNote(recognition.transcript, recognition.elapsedSeconds);
-    saveNote(note);
+    try {
+      await saveNote(note);
+    } catch {
+      setStorageError("Unable to save note locally. Please try again.");
+      return;
+    }
+
     router.push(`/notes/${note.id}`);
 
     if (audio && audio.size > 0) {
-      void saveAudioRecording(note.id, audio);
+      void saveAudioRecording(note.id, audio, recognition.elapsedSeconds);
       void refineNoteTranscript(note.id, audio);
     }
   };
@@ -120,6 +129,8 @@ export default function RecordingPage() {
             <p className="mb-4 text-center text-sm text-neutral-400">{recognition.error}</p>
           ) : audioRecorder.error ? (
             <p className="mb-4 text-center text-sm text-neutral-400">{audioRecorder.error}</p>
+          ) : storageError ? (
+            <p className="mb-4 text-center text-sm text-neutral-400">{storageError}</p>
           ) : null}
           {recognition.status === "unsupported" ? (
             <p className="mx-auto max-w-md text-center text-sm leading-7 text-neutral-400">
