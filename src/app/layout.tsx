@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "StillVoice",
   description: "A quiet space for voice-first notes.",
+  icons: {
+    icon: "/stillvoice-logo.png",
+    apple: "/stillvoice-logo.png",
+  },
 };
 
 export default function RootLayout({
