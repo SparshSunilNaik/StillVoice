@@ -35,11 +35,11 @@ export default function NotesPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="text-5xl font-medium tracking-[-0.07em] sm:text-7xl"
+              className="text-5xl font-medium tracking-[-0.07em] text-neutral-950 transition-colors duration-500 sm:text-7xl dark:text-stone-100"
             >
               Notes
             </motion.h1>
-            <p className="mt-5 max-w-xl text-base leading-8 text-neutral-500">
+            <p className="mt-5 max-w-xl text-base leading-8 text-neutral-500 dark:text-neutral-400">
               A private archive of thoughts captured as they arrived.
             </p>
           </div>
@@ -52,7 +52,7 @@ export default function NotesPage() {
         </div>
 
         <div className="relative mt-10 max-w-xl">
-          <Search className="pointer-events-none absolute top-1/2 left-5 size-4 -translate-y-1/2 text-neutral-400" />
+          <Search className="pointer-events-none absolute top-1/2 left-5 size-4 -translate-y-1/2 text-neutral-400 dark:text-neutral-500" />
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -71,11 +71,11 @@ export default function NotesPage() {
         </section>
       ) : (
         <section className="flex flex-1 items-center justify-center pb-20">
-          <div className="max-w-md rounded-[2rem] border border-dashed border-neutral-200 bg-white/50 p-10 text-center">
-            <h2 className="text-xl font-medium tracking-[-0.03em] text-neutral-900">
+          <div className="max-w-md rounded-[2rem] border border-dashed border-neutral-200 bg-white/50 p-8 text-center shadow-sm shadow-neutral-950/[0.02] transition-colors duration-500 sm:p-10 dark:border-white/10 dark:bg-white/[0.035] dark:shadow-black/20">
+            <h2 className="text-xl font-medium tracking-[-0.03em] text-neutral-900 dark:text-stone-100">
               {notes.length === 0 ? "No notes yet" : "No matches"}
             </h2>
-            <p className="mt-3 text-sm leading-7 text-neutral-500">
+            <p className="mt-3 text-sm leading-7 text-neutral-500 dark:text-neutral-400">
               {notes.length === 0
                 ? "Start with one quiet recording. The archive will build naturally from there."
                 : "Try a different word or phrase from the note you remember."}

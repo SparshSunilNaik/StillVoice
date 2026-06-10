@@ -19,20 +19,20 @@ export function NoteCard({ note, index = 0 }: NoteCardProps) {
       transition={{ duration: 0.45, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
     >
       <Link href={`/notes/${note.id}`}>
-        <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:bg-white hover:shadow-[0_24px_80px_rgba(24,24,27,0.09)]">
+        <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-neutral-300 hover:bg-white hover:shadow-[0_24px_80px_rgba(24,24,27,0.09)] dark:hover:border-white/18 dark:hover:bg-white/[0.07] dark:hover:shadow-[0_26px_90px_rgba(0,0,0,0.34)]">
           <CardContent className="space-y-5 p-6 sm:p-7">
             <div className="flex items-start justify-between gap-6">
-              <h3 className="line-clamp-2 text-lg font-medium leading-snug tracking-[-0.025em] text-neutral-950">
+              <h3 className="line-clamp-2 text-lg font-medium leading-snug tracking-[-0.025em] text-neutral-950 transition-colors duration-300 dark:text-stone-100">
                 {note.title}
               </h3>
-              <span className="shrink-0 rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-500 transition-colors group-hover:bg-neutral-950 group-hover:text-white">
+              <span className="shrink-0 rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-500 transition-colors group-hover:bg-neutral-950 group-hover:text-white dark:bg-white/[0.07] dark:text-neutral-400 dark:group-hover:bg-stone-100 dark:group-hover:text-neutral-950">
                 {formatDuration(note.durationSeconds)}
               </span>
             </div>
-            <p className="line-clamp-3 text-sm leading-7 text-neutral-500">{getPreview(note.transcript)}</p>
-            <div className="flex items-center gap-2 text-xs text-neutral-400">
+            <p className="line-clamp-3 text-sm leading-7 text-neutral-500 dark:text-neutral-400">{getPreview(note.transcript)}</p>
+            <div className="flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-500">
               <span>{formatDate(note.createdAt)}</span>
-              <span className="size-1 rounded-full bg-neutral-300" />
+              <span className="size-1 rounded-full bg-neutral-300 dark:bg-neutral-700" />
               <span>{formatTime(note.createdAt)}</span>
             </div>
           </CardContent>

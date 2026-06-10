@@ -29,12 +29,12 @@ export default function Home() {
     <AppFrame>
       <QuietHeader />
 
-      <section className="flex flex-1 flex-col items-center justify-center py-20 text-center sm:py-28">
+      <section className="flex flex-1 flex-col items-center justify-center py-18 text-center sm:py-28">
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-7 text-sm font-medium tracking-[0.18em] text-neutral-400 uppercase"
+          className="mb-7 text-sm font-medium tracking-[0.18em] text-neutral-400 uppercase dark:text-neutral-500"
         >
           {greeting}
         </motion.p>
@@ -42,7 +42,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl text-balance text-5xl font-medium leading-[0.96] tracking-[-0.07em] text-neutral-950 sm:text-7xl lg:text-8xl"
+          className="max-w-3xl text-balance text-5xl font-medium leading-[0.96] tracking-[-0.07em] text-neutral-950 transition-colors duration-500 sm:text-7xl lg:text-8xl dark:text-stone-100"
         >
           What are you thinking about today?
         </motion.h1>
@@ -63,9 +63,9 @@ export default function Home() {
 
       <section className="pb-8 sm:pb-12">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-sm font-medium tracking-[0.16em] text-neutral-400 uppercase">Recent Notes</h2>
+          <h2 className="text-sm font-medium tracking-[0.16em] text-neutral-400 uppercase dark:text-neutral-500">Recent Notes</h2>
           {notes.length > 0 ? (
-            <Link href="/notes" className="inline-flex items-center gap-1 text-sm text-neutral-500 transition-colors hover:text-neutral-950">
+            <Link href="/notes" className="inline-flex items-center gap-1 text-sm text-neutral-500 transition-colors hover:text-neutral-950 dark:text-neutral-400 dark:hover:text-stone-100">
               View all <ArrowRight className="size-3.5" />
             </Link>
           ) : null}
@@ -78,7 +78,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="rounded-[2rem] border border-dashed border-neutral-200 bg-white/45 p-10 text-center text-sm leading-7 text-neutral-400">
+          <div className="rounded-[2rem] border border-dashed border-neutral-200 bg-white/45 p-8 text-center text-sm leading-7 text-neutral-400 shadow-sm shadow-neutral-950/[0.02] transition-colors duration-500 sm:p-10 dark:border-white/10 dark:bg-white/[0.035] dark:text-neutral-500 dark:shadow-black/20">
             Your saved thoughts will appear here, quiet and ready when you need them.
           </div>
         )}

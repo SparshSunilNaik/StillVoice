@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #faf9f6;
   --foreground: #171717;
+}
+
+.dark {
+  --background: #11100e;
+  --foreground: #f4f1ea;
 }
 
 @theme inline {
@@ -17,11 +24,17 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   text-rendering: geometricPrecision;
+  transition: background-color 500ms ease, color 500ms ease;
 }
 
 ::selection {
   background: #171717;
   color: #faf9f6;
+}
+
+.dark ::selection {
+  background: #f4f1ea;
+  color: #11100e;
 }
 
 @layer utilities {
